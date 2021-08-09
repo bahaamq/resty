@@ -1,3 +1,6 @@
 # SOLUTION - Component Based UI
- UML Diagram (phase 1)
+ (phase 1)
+ UML Diagram
  https://miro.com/app/board/o9J_l3PBzM0=/
+Sandbox-Link:
+https://codesandbox.io/s/resty-4eqvk
