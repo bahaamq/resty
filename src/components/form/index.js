@@ -2,7 +2,7 @@ import React from 'react';
 
 import './form.scss';
 
-import { useState } from 'react'
+import {useState,useEffect} from 'react'
 
 
 function Form({ handleApiCall }) {
@@ -12,7 +12,19 @@ function Form({ handleApiCall }) {
   const [textareas, setShow] = useState(false);
   const [showload, setLoad] = useState(false);
 
-  function handleSubmit(e) {
+
+ 
+
+
+
+  
+
+
+
+
+
+
+  async function  handleSubmit(e) {
     e.preventDefault();
 
     //Take values from the state method:method , url:url 
@@ -24,9 +36,11 @@ function Form({ handleApiCall }) {
     };
 
 
-    handleApiCall(formData);
+   await  handleApiCall(formData);
     setShow(false)
   }
+
+
 
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './app.scss';
-import Loading from "./Loading";
+import {useState,useEffect} from 'react'
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...
@@ -12,27 +12,30 @@ import Results from './components/results';
 
 
 
-class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-      unload:false
-    };
-  }
 
-  callApi = async (requestParams) => {
-    this.setState({unload:requestParams.showload});
+function App() {
+  const [data, setData] = useState(null);
+  const [requestParams, setparams] = useState([]);
+  const [unload, setUnload] = useState(false);
 
+ let callApi = async (requestParams) => {
+    setUnload(requestParams.showload)
     // mock output
     //requestParams holds the value of method and url input coming from the form.
    console.log(requestParams.textareas)
+   setparams(requestParams)
+
+
+
+  }
+
+  
+  useEffect(async () => {
+    console.log("hello from app")
     try
     {
       
-      this.setState({requestParams});
 
       const response = await fetch(requestParams.url, {
         method:requestParams.method,
@@ -41,32 +44,33 @@ class App extends React.Component {
 
     const data =  await response.json();
 
-    this.setState({data});
-  
+    setData({data:data})  
 
     console.log("success")
     }
 
     catch(e){
 
-      this.setState({data:{detail: `Method '${this.state.requestParams.method}' not allowed.`
-    }})
+
+    setData({data:{detail: `Method '${requestParams.method}' not allowed.`
+    
+  }}
+    
+    
+  )
 console.log(e,"failure")
 }
 
 
-  }
-
-  
-
-  render() {
+  }, [requestParams])
+ 
     return (
       <React.Fragment>
         <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
-        <Form  handleApiCall={this.callApi} />
-{this.state.requestParams.textareas &&
+        <div>Request Method: {requestParams.method}</div>
+        <div>URL: {requestParams.url}</div>
+        <Form  handleApiCall={callApi} />
+{requestParams.textareas &&
 
 <textarea className="comment"> JSON Body : 
   </textarea>
@@ -74,9 +78,9 @@ console.log(e,"failure")
 
 
         {
-        this.state.unload &&
+        unload &&
    
-        <Results data={this.state.data} />
+        <Results data={data} />
 
 
   }
@@ -86,7 +90,7 @@ console.log(e,"failure")
         <Footer />
       </React.Fragment>
     );
+  
   }
-}
 
 export default App;
