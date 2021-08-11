@@ -12,3 +12,12 @@ Sandbox
 https://codesandbox.io/s/jovial-montalcini-n20v7?file=/src/index.js:86-87
 netlify
 https://eager-poitras-245df4.netlify.app/
+
+Phase (3)
+UML:
+https://miro.com/app/board/o9J_l3PBzM0=/
+Sandbox
+https://codesandbox.io/s/jovial-montalcini-n20v7?file=/src/index.js:86-87
+netlify
+https://eager-poitras-245df4.netlify.app/
+
