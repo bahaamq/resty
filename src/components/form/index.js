@@ -13,20 +13,10 @@ function Form({ handleApiCall }) {
   const [showload, setLoad] = useState(false);
 
 
- 
-
-
-
-  
-
-
-
-
-
 
   async function  handleSubmit(e) {
     e.preventDefault();
-
+console.log("hello")
     //Take values from the state method:method , url:url 
     const formData = {
       method,

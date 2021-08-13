@@ -1,7 +1,9 @@
+
+
 import React from 'react';
 
 import './app.scss';
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useReducer} from 'react'
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...
@@ -9,33 +11,52 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+import History from './components/history';
 
 
 
+const initialState = {
+    data: null,
+    requestParams:{},
+    unload:false,
+  };
+let history=[]
 
 
-function App() {
-  const [data, setData] = useState(null);
-  const [requestParams, setparams] = useState([]);
-  const [unload, setUnload] = useState(false);
-
- let callApi = async (requestParams) => {
-    setUnload(requestParams.showload)
-    // mock output
-    //requestParams holds the value of method and url input coming from the form.
-   console.log(requestParams.textareas)
-   setparams(requestParams)
-
-
+function reducer(state = initialState, action){
+//...state in order not to lose objects at another types still have(unload,params,data)
+  if(action.type === 'Truthy')
+  {
+    return { ...state,unload:action.value };
 
   }
+  if(action.type === 'Res')
+{
 
-  
-  useEffect(async () => {
-    console.log("hello from app")
+  return {...state,requestParams:action.value};
+
+  }
+  if(action.type === 'Data')
+  {
+    history.push(state)
+    return {...state,data:action.value};
+  }
+}
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  let callApi = async (requestParams) => {
+
+
+     dispatch({type: 'Truthy', value: true})
+
+
+     dispatch({type: 'Res', value: requestParams})
+
     try
     {
-      
+
 
       const response = await fetch(requestParams.url, {
         method:requestParams.method,
@@ -44,53 +65,50 @@ function App() {
 
     const data =  await response.json();
 
-    setData({data:data})  
+  dispatch({type: 'Data', value: data})
 
-    console.log("success")
+
     }
 
     catch(e){
 
 
-    setData({data:{detail: `Method '${requestParams.method}' not allowed.`
+      dispatch({type: 'Data', value: `Method '${requestParams.method}' not ready .`})
     
-  }}
-    
-    
-  )
-console.log(e,"failure")
-}
-
-
-  }, [requestParams])
- 
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {requestParams.method}</div>
-        <div>URL: {requestParams.url}</div>
-        <Form  handleApiCall={callApi} />
-{requestParams.textareas &&
-
-<textarea className="comment"> JSON Body : 
-  </textarea>
-}
-
-
-        {
-        unload &&
-   
-        <Results data={data} />
-
-
   }
-
-
- 
-        <Footer />
-      </React.Fragment>
-    );
+    
+    
   
-  }
+}
+
+  useEffect(()=>{
+console.log("random")
+  },[state.requestParams])
+
+
+return (
+  <React.Fragment>
+    <Header />
+   
+    <Form  handleApiCall={callApi} />
+{
+  history.length > 1 &&
+    <History historiesData={history} />
+}
+
+    {
+    state.unload &&
+
+    <Results data={state.data} />
+
+}
+
+
+
+    <Footer />
+  </React.Fragment>
+);
+
+}
 
 export default App;
