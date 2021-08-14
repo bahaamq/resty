@@ -10,23 +10,12 @@ function Form({ handleApiCall }) {
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
   const [textareas, setShow] = useState(false);
-  const [showload, setLoad] = useState(false);
-
-
- 
-
-
-
-  
-
-
-
 
 
 
   async function  handleSubmit(e) {
     e.preventDefault();
-
+console.log("hello")
     //Take values from the state method:method , url:url 
     const formData = {
       method,
@@ -37,7 +26,6 @@ function Form({ handleApiCall }) {
 
 
    await  handleApiCall(formData);
-    setShow(false)
   }
 
 
@@ -52,7 +40,11 @@ function Form({ handleApiCall }) {
           <button type="submit" data-testid="mybtn" >GO!</button>
         </label>
         <label className="methods">
-          <span id="get" data-testid="getmethod" onClick={() => setMethod("GET")
+          <span id="get" data-testid="getmethod" onClick={
+            () => 
+            { setShow(false)
+              setMethod("GET")
+            }
         
         
         }>GET</span>
@@ -67,9 +59,23 @@ function Form({ handleApiCall }) {
             setShow(true)
           }
           }>PUT</span>
-          <span id="delete" onClick={() => setMethod("DELETE")}>DELETE</span>
+
+          <span id="delete" onClick={() => {setMethod("DELETE")
+                    setShow(false)
+
+        
+        
+        }}>DELETE</span>
         </label>
+
+
+
       </form>
+
+      {textareas &&
+<textarea className="comment"> JSON Body : 
+  </textarea>
+  }
     </>
   );
 }
