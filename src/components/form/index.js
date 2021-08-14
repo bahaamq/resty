@@ -10,7 +10,6 @@ function Form({ handleApiCall }) {
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
   const [textareas, setShow] = useState(false);
-  const [showload, setLoad] = useState(false);
 
 
 
@@ -27,7 +26,6 @@ console.log("hello")
 
 
    await  handleApiCall(formData);
-    setShow(false)
   }
 
 
@@ -42,7 +40,11 @@ console.log("hello")
           <button type="submit" data-testid="mybtn" >GO!</button>
         </label>
         <label className="methods">
-          <span id="get" data-testid="getmethod" onClick={() => setMethod("GET")
+          <span id="get" data-testid="getmethod" onClick={
+            () => 
+            { setShow(false)
+              setMethod("GET")
+            }
         
         
         }>GET</span>
@@ -57,9 +59,23 @@ console.log("hello")
             setShow(true)
           }
           }>PUT</span>
-          <span id="delete" onClick={() => setMethod("DELETE")}>DELETE</span>
+
+          <span id="delete" onClick={() => {setMethod("DELETE")
+                    setShow(false)
+
+        
+        
+        }}>DELETE</span>
         </label>
+
+
+
       </form>
+
+      {textareas &&
+<textarea className="comment"> JSON Body : 
+  </textarea>
+  }
     </>
   );
 }

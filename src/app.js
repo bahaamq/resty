@@ -90,11 +90,19 @@ return (
   <React.Fragment>
     <Header />
    
+
+
+    <div>Request Method: {state.requestParams.method}</div>
+        <div>URL: {state.requestParams.url}</div>
+
+
+
+
     <Form  handleApiCall={callApi} />
-{
-  history.length > 1 &&
-    <History historiesData={history} />
-}
+
+ 
+    <History handleHistory={callApi} historiesData={history} />
+
 
     {
     state.unload &&
